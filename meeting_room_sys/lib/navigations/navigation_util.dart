@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/owner_dashnoard.dart';
+import '../screens/owner_dashboard.dart';
 import '../screens/manager_screen.dart';
 import '../screens/team_leaders_screen.dart';
 import '../model/user/app_user.dart';
@@ -25,3 +25,4 @@ Future<void> navigateToRoleBasedScreen(BuildContext context, AppUser user) async
     showToast(message: 'Role not recognized. Please contact support.');
   }
 }
+
