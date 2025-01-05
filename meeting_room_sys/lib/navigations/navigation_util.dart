@@ -8,38 +8,48 @@ import '../model/user/app_user.dart';
 import '../model/notifications/toast.dart';
 import '../screens/user_booking_screen.dart';
 
-
-late final AuthService authService;
-late final AppUser user;
-
-Future<void> navigateToRoleBasedScreen(BuildContext context, AppUser user) async {
+Future<void> navigateToRoleBasedScreen({
+  required BuildContext context,
+  required AppUser user,
+  required AuthService authService,
+}) async {
   if (user.role == 'Owner') {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const OwnerDashboard()),
+      MaterialPageRoute(
+        builder: (context) => OwnerDashboard(user: user),
+      ),
     );
-  } else if (user.role == 'manager') {
+  } else if (user.role == 'Manager') {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => ManagerScreen()),
+      MaterialPageRoute(
+        builder: (context) => ManagerScreen(user: user),
+      ),
     );
   } else if (user.role == 'Team Leader') {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => RoomBookingScreen(userId: user.uid)),
+      MaterialPageRoute(
+        builder: (context) => RoomBookingScreen(user: user),
+      ),
     );
   } else if (user.role == 'User') {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => UserBookingScreen(user: user, )),
+      MaterialPageRoute(
+        builder: (context) => UserBookingScreen(user: user),
+      ),
     );
   } else {
+    // Handle unrecognized role
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginScreen(authService: authService,)),
+      MaterialPageRoute(
+        builder: (context) => LoginScreen(authService: authService),
+      ),
     );
 
     showToast(message: 'Role not recognized. Please contact support.');
   }
 }
-

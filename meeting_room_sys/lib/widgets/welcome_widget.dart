@@ -35,7 +35,7 @@ class WelcomeWidget extends StatelessWidget {
     final currentDate = _getFormattedDate();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
       child: Card(
         elevation: 4.0,
         shape: RoundedRectangleBorder(

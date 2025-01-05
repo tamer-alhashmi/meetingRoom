@@ -40,7 +40,9 @@ class SplashScreen extends StatelessWidget {
                   final AppUser user =
                   AppUser.fromFirestore(userSnapshot.data!);
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    navigateToRoleBasedScreen(context, user);
+                    navigateToRoleBasedScreen(context: context,
+                      user: user,
+                      authService: authService, );
                   });
                   return const SizedBox.shrink(); // Placeholder
                 } else {

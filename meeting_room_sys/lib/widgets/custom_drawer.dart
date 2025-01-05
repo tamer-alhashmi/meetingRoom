@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-
+import '../model/user/app_user.dart';
 
 class CustomDrawer extends StatelessWidget {
-  final String photoUrl;
-  final String userName;
-  final String userEmail;
+  final AppUser user; // Pass the AppUser instance
   final VoidCallback onSignOut;
 
   const CustomDrawer({
-    required this.photoUrl,
-    required this.userName,
-    required this.userEmail,
+    required this.user,
     required this.onSignOut,
     Key? key,
   }) : super(key: key);
@@ -22,19 +18,21 @@ class CustomDrawer extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-              backgroundImage: photoUrl != null && photoUrl.isNotEmpty
-                  ? NetworkImage(photoUrl)
+              backgroundImage: user.photoURL.isNotEmpty
+                  ? NetworkImage(user.photoURL)
                   : null,
               backgroundColor: Colors.grey,
-              child: photoUrl == null || photoUrl.isEmpty
+              child: user.photoURL.isEmpty
                   ? Text(
-                userName.isNotEmpty ? userName[0] : '?', // Show first letter of the name
+                user.firstName.isNotEmpty
+                    ? user.firstName[0].toUpperCase()
+                    : '?', // Show the first letter of the first name or '?' if empty
                 style: const TextStyle(fontSize: 24, color: Colors.white),
               )
-                  : null, // Background color for placeholder
+                  : null,
             ),
-            accountName: Text(userName),
-            accountEmail: Text(userEmail),
+            accountName: Text("${user.firstName} ${user.lastName}"),
+            accountEmail: Text(user.email),
           ),
           ListTile(
             leading: const Icon(Icons.settings),
@@ -68,12 +66,13 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
             title: const Text('Sign Out', style: TextStyle(color: Colors.red)),
-            onTap: onSignOut,
+            onTap: () => _showSignOutConfirmation(context),
           ),
         ],
       ),
     );
   }
+
   void _showSignOutConfirmation(BuildContext context) {
     showDialog(
       context: context,
